@@ -1,0 +1,42 @@
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Frontend
+node_modules/
+dist/
+frontend/.env*
+!frontend/.env.example
+.vite/
+
+# Local databases and logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# ML generated artifacts
+backend/app/ml/artifacts/*.joblib
+backend/app/ml/artifacts/*.pkl
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
