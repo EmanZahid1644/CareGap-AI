@@ -1,206 +1,185 @@
-# 🩺 CareGap-AI
+# CareGap-AI
 
-> **AI-Powered Healthcare Analytics & Care Gap Detection Platform**
+**Full-Stack Healthcare Analytics & Care Gap Detection Platform**
 
-CareGap-AI is a full-stack healthcare intelligence MVP designed to help healthcare organizations manage patient records, analyze clinical encounters, identify potential gaps in care, and explore AI-powered hospital analytics. 🏥📊
+CareGap-AI is a portfolio-grade healthcare analytics MVP that brings patient and encounter management, rule-based care-gap detection, organization-scoped workflows, and experimental machine-learning inference into one full-stack application.
 
-The platform combines a FastAPI backend, React dashboard, PostgreSQL database, role-based access control, and a demonstration machine learning model into a modular, testable system. ⚙️💡
+Built with **FastAPI, React, PostgreSQL, SQLAlchemy, and scikit-learn**, it demonstrates backend API design, relational data modeling, access control, clinical-data ingestion, applied ML, and automated testing.
 
-📌 **Project Status:** Functional MVP / Portfolio Demonstration
+> **Status:** Functional MVP / engineering demonstration. **Not a clinical decision-support product.** The readmission model is trained on synthetic data and must not be used for diagnosis, treatment, or patient-care decisions.
 
-⚠️ **AI Disclaimer:** The current readmission risk model is trained on synthetic data. It is intended for technical demonstration only and **must not be used for clinical decisions**.
+## At a glance
 
-## 🌟 Key Features
+| Area | Implementation |
+| --- | --- |
+| Backend | Python, FastAPI, Pydantic, SQLAlchemy |
+| Frontend | React, Vite, JavaScript, Tailwind CSS |
+| Database | PostgreSQL with Alembic migrations |
+| Authentication | JWT and role-based access control (RBAC) |
+| Analytics | Encounter metrics and rule-based care-gap checks |
+| Machine learning | Experimental scikit-learn logistic regression |
+| Validation | **159 passing backend tests**; successful Vite production build |
+| API documentation | FastAPI-generated OpenAPI / Swagger UI |
 
-### 1. 🔐 Authentication & Organization Management
+## Product walkthrough
 
-- User registration and JWT-based authentication.
-- Organization creation, management, and membership workflows.
-- Role-based access control (RBAC) and protected API endpoints.
-- Comprehensive audit logging for supported operations.
+The following screenshots show the main application workflows using synthetic demonstration data:
 
-### 2. 🗂️ Patient & Encounter Management
+| Dashboard overview | Care-gap review |
+| --- | --- |
+| ![CareGap-AI dashboard overview](docs/screenshots/dashboard.png) | ![CareGap-AI care-gap flags](docs/screenshots/care-gaps.png) |
+
+| Patient records | Clinical encounters |
+| --- | --- |
+| ![CareGap-AI patient records](docs/screenshots/patients.png) | ![CareGap-AI clinical encounters](docs/screenshots/encounters.png) |
+
+| Experimental readmission-risk interface |
+| --- |
+| ![CareGap-AI readmission-risk demo](docs/screenshots/readmission-risk.png) |
+
+**Suggested demo:** Sign in → select an organization → view patients and encounters → import sample encounters → inspect analytics and detected care gaps → explore the experimental readmission-risk interface.
+
+> Screenshots use synthetic demonstration data. The workflow above describes the intended demonstration, not an independently verified end-to-end recording.
+
+## Features
+
+### Identity and organization management
+
+- User registration and JWT-based login.
+- Organization creation, membership management, and role-based access controls.
+- Protected endpoints and audit logging for supported operations.
+
+### Patients and encounters
 
 - Create, retrieve, and update patient records.
-- Manage detailed clinical encounter records.
-- Organization-scoped data access and structured data validation.
+- Manage clinical encounters with validated, structured inputs.
+- Organization-scoped API workflows.
 
-### 3. 📥 Clinical Data Import
+### Clinical data imports
 
-- CSV-based encounter import with validation and data normalization.
-- Import job tracking and encounter retrieval/filtering.
-- Sample encounter dataset provided for rapid onboarding and demonstration.
+- CSV encounter imports with validation and normalization.
+- Import-job tracking and encounter filtering.
+- `sample_encounters.csv` for demonstration data.
 
-### 4. 📈 Clinical Analytics Dashboard
+### Analytics and care-gap detection
 
-- Interactive React dashboard for hospital encounter overviews.
-- Metrics on length-of-stay (LOS), imports, and validation status.
-- Data visualization and structured reporting.
+- Dashboard summaries of encounters, length of stay, and import/validation status.
+- Deterministic checks for four documented categories:
+  1. Missing discharge information.
+  2. Missing required follow-up scheduling.
+  3. Records requiring data review.
+  4. Missing admission details.
+- Rule identifiers and severity classifications for detected findings.
 
-### 5. 🔍 Rule-Based Care Gap Detection
+> **Scope note:** Actionable care-gap case assignment, status changes, and resolution tracking are not represented as shipped features here. They remain in development.
 
-The care gap detection engine evaluates encounter information to identify critical issues:
+### Experimental ML inference
 
-- 🚫 Missing discharge information
-- 🗓️ Unscheduled required follow-up appointments
-- 📋 Records pending data review
-- 📥 Missing admission details
+- Synthetic dataset generation and feature preparation.
+- Logistic regression training and model serialization using scikit-learn.
+- FastAPI inference interface and frontend demonstration.
 
-*Each detected issue is mapped to a specific rule identifier and assigned a severity level.*
+> **ML limitations:** No real-world clinical validation, prospective evaluation, or evidence of suitability for patient care is claimed.
 
-### 6. 🤖 AI-Powered Readmission Risk Demonstration
-
-Includes an experimental machine learning pipeline for readmission risk estimation:
-
-- 🧪 Synthetic dataset generation.
-- 🔧 Feature engineering and data validation.
-- 📊 Logistic regression model training and serialization.
-- ⚡ FastAPI inference endpoints & interactive frontend interface.
-
-> **Important:** The model is not clinically validated and does not provide medical advice, diagnosis, or treatment recommendations.
-
-## 🛠️ Technology Stack
-
-| Layer | Technologies |
-| --- | --- |
-| **Frontend** | React, Vite, JavaScript, Tailwind CSS 💻 |
-| **Backend** | Python, FastAPI, Pydantic ⚡ |
-| **Database** | PostgreSQL 🐘 |
-| **ORM** | SQLAlchemy 🔗 |
-| **Migrations** | Alembic 🔄 |
-| **Authentication** | JWT (JSON Web Tokens) 🔑 |
-| **Machine Learning** | Scikit-learn, Logistic Regression 📊 |
-| **Testing** | Pytest 🧪 |
-| **API Docs** | OpenAPI / Swagger UI 📄 |
-| **Version Control** | Git, GitHub 🐙 |
-
-## 🏗️ System Architecture
+## Architecture
 
 ```mermaid
 flowchart TD
-    A[CareGap-AI] --> B[React Frontend]
-    B --> C[REST API Layer]
-    C --> D[FastAPI Backend]
-    D --> E1[Authentication and RBAC]
-    D --> E2[Clinical Data Services]
-    D --> E3[AI and Analytics]
-
-    E2 --> F1[Patient Records]
-    E2 --> F2[CSV Import]
-    E2 --> F3[Encounters]
-    E3 --> F4[Care Gap Rules]
-    E3 --> F5[Readmission ML]
-    E3 --> F6[Dashboard Metrics]
-
-    E1 --> G[SQLAlchemy ORM]
-    F1 --> G
-    F2 --> G
-    F3 --> G
-    F4 --> G
-    F6 --> G
-    G --> H[(PostgreSQL Database)]
-
-    style A fill:#4f46e5,stroke:#fff,stroke-width:2px,color:#fff
-    style B fill:#0ea5e9,stroke:#fff,stroke-width:2px,color:#fff
-    style D fill:#10b981,stroke:#fff,stroke-width:2px,color:#fff
-    style H fill:#3b82f6,stroke:#fff,stroke-width:2px,color:#fff
+    U[User] --> UI[React + Vite Dashboard]
+    UI --> API[FastAPI REST API]
+    API --> AUTH[JWT Authentication + RBAC]
+    API --> SVC[Clinical Domain Services]
+    API --> ANALYTICS[Analytics + Care Gap Rules]
+    API --> ML[Experimental ML Inference]
+    SVC --> ORM[SQLAlchemy ORM]
+    AUTH --> ORM
+    ANALYTICS --> ORM
+    ORM --> DB[(PostgreSQL)]
+    ML --> ARTIFACT[Locally Trained Model Artifact]
+    IMPORT[CSV Encounter Import] --> SVC
 ```
 
-*The backend follows a modular architecture separating API routes, database models, Pydantic schemas, domain services, and ML components.*
+The architecture separates HTTP routes, Pydantic validation, domain services, database models, and ML logic. The diagram is a logical component view, not a deployment topology.
 
-## 📁 Project Structure
+## Repository layout
 
 ```text
 CareGap-AI/
-│
 ├── backend/
 │   ├── app/
-│   │   ├── api/          # REST API endpoints & routers
-│   │   ├── core/         # Core config, security & auth settings
-│   │   ├── db/           # Database sessions & initialization
-│   │   ├── ml/           # Machine learning models & training scripts
-│   │   ├── models/       # SQLAlchemy database models
-│   │   ├── schemas/      # Pydantic models for validation
-│   │   ├── services/     # Business logic & domain services
-│   │   └── main.py       # FastAPI application entry point
-│   └── tests/            # Pytest suite
-│
-├── frontend/
-│   ├── public/           # Static assets
-│   ├── src/              # React components & UI logic
-│   ├── package.json
-│   └── vite.config.js
-│
-├── migrations/           # Alembic migration scripts
-├── docs/                 # Detailed documentation
-├── alembic.ini
+│   │   ├── api/           # API routers
+│   │   ├── core/          # Configuration and security
+│   │   ├── db/            # Engine and sessions
+│   │   ├── ml/            # ML training and inference
+│   │   ├── models/        # SQLAlchemy models
+│   │   ├── schemas/       # Pydantic schemas
+│   │   ├── services/      # Domain logic
+│   │   └── main.py        # FastAPI entry point
+│   └── tests/             # Backend tests
+├── frontend/              # React + Vite application
+├── migrations/            # Alembic revisions
+├── docs/                  # Project documentation
+├── sample_encounters.csv  # Synthetic/demo import data
 ├── requirements.txt
-├── sample_encounters.csv
+├── alembic.ini
 └── README.md
 ```
 
-## 🚀 Getting Started
+## Local setup
 
-### 📋 Prerequisites
+### Requirements
 
-- Python 3.9+ & `pip` 🐍
-- Node.js & `npm` 📦
-- PostgreSQL 🐘
-- Git 🐙
+- Python and pip (use a version compatible with `requirements.txt`)
+- Node.js and npm (compatible with the Vite version in `frontend/package.json`)
+- PostgreSQL
+- Git
 
-### 1️⃣ Clone the Repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/EmanZahid1644/CareGap-AI.git
 cd CareGap-AI
 ```
 
-### 2️⃣ Backend Setup
+### 2. Backend environment
 
-Create and activate a virtual environment:
+**Windows (Command Prompt):**
 
-- **Windows:**
-
-  ```bat
-  python -m venv .venv
-  .venv\Scripts\activate
-  ```
-
-- **macOS/Linux:**
-
-  ```bash
-  python3 -m venv .venv
-  source .venv/bin/activate
-  ```
-
-Install backend dependencies:
-
-```bash
-pip install -r requirements.txt
+```bat
+python -m venv .venv
+.venv\Scripts\activate
+python -m pip install -r requirements.txt
 ```
 
-Configure your local PostgreSQL database and set up environment variables required by `backend/app/core/config.py`.
+**macOS/Linux:**
 
-> ⚙️🔒 *Do not commit real database credentials, JWT secrets, or private configuration files.*
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
 
-Run database migrations:
+Create a local PostgreSQL database and configure the environment variables expected by `backend/app/core/config.py`. Use locally generated secrets and never commit `.env` or credentials. Refer to the configuration source for the exact variable names; this README intentionally does not invent them.
+
+Apply committed database migrations:
 
 ```bash
 python -m alembic upgrade head
 ```
 
-Start the API backend:
+Run the API from the repository root:
 
 ```bash
 python -m uvicorn backend.app.main:app --reload
 ```
 
-- 🌐 **Backend Base URL:** `http://127.0.0.1:8000`
-- 📚 **Swagger UI Docs:** `http://127.0.0.1:8000/docs`
+- API: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+- Interactive API docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- OpenAPI schema: [http://127.0.0.1:8000/openapi.json](http://127.0.0.1:8000/openapi.json)
 
-### 3️⃣ Frontend Setup
+### 3. Frontend
 
-In a new terminal window:
+In a second terminal:
 
 ```bash
 cd frontend
@@ -208,100 +187,100 @@ npm install
 npm run dev
 ```
 
-- 💻 **Frontend URL:** `http://localhost:5173`
+Default Vite development URL: [http://localhost:5173](http://localhost:5173)
 
-To create a production build:
+Production build:
 
 ```bash
 npm run build
 ```
 
-### 4️⃣ Run Backend Tests
+### 4. Generate the demo ML model
 
-From the project root:
-
-```bash
-python -m pytest backend/tests -q
-```
-
-✅ **Latest Verified Result:** 159 tests passed.
-
-*(Note: Tests require an appropriately configured test environment and PostgreSQL database.)*
-
-### 5️⃣ Generate the Demonstration ML Model
-
-The trained model artifact is excluded from version control. Run the training script locally to generate it:
+The trained artifact is not committed. From the repository root, with the virtual environment active:
 
 ```bash
 python -m backend.app.ml.train_demo_model
 ```
 
-## 🔌 API Overview
+## API overview
 
-CareGap-AI exposes REST APIs scoped under `/api/v1`:
+Routes are organized under `/api/v1` (refer to `/docs` for exact methods, schemas, and authorization requirements).
 
-| Module | Key Endpoints |
+| Domain | Example route |
 | --- | --- |
-| 🔑 **Authentication** | `/auth/register`, `/auth/login`, `/auth/me` |
-| 🏢 **Organizations** | `/organizations` |
-| 👥 **Members** | `/organizations/{organization_id}/members` |
-| 🧑‍⚕️ **Patients** | `/organizations/{organization_id}/patients` |
-| 🏥 **Encounters** | `/organizations/{organization_id}/encounters` |
-| 📥 **Imports** | `/organizations/{organization_id}/imports/encounters` |
-| 📊 **Analytics** | `/organizations/{organization_id}/analytics/overview` |
-| 🔍 **Care Gaps** | `/organizations/{organization_id}/care-gaps/encounters` |
-| 🤖 **AI Inference** | `/organizations/{organization_id}/analytics/readmission-risk` |
+| Authentication | `/auth/register`, `/auth/login`, `/auth/me` |
+| Organizations | `/organizations` |
+| Membership | `/organizations/{organization_id}/members` |
+| Patients | `/organizations/{organization_id}/patients` |
+| Encounters | `/organizations/{organization_id}/encounters` |
+| Imports | `/organizations/{organization_id}/imports/encounters` |
+| Analytics | `/organizations/{organization_id}/analytics/overview` |
+| Care-gap detection | `/organizations/{organization_id}/care-gaps/encounters` |
+| Experimental inference | `/organizations/{organization_id}/analytics/readmission-risk` |
 
-## 🧪 Testing & Validation
+Use Swagger UI for request/response examples generated from the running application. Avoid placing real patient information in API examples or screenshots.
 
-The project includes unit and integration tests covering backend modules:
+## Tests and build verification
 
-- 🔑 Authentication & authorization
-- 🏢 Organization & membership roles
-- 🧑‍⚕️ Patient & clinical encounter management
-- 📥 CSV data imports & validation
-- 📊 Analytics & audit logging
-- 🐘 Database transactions
+From the repository root:
 
-**Status:**
+```bash
+python -m pytest -q
+```
 
-- ✅ Backend Test Suite: **159 passed**
-- ✨ Frontend Build: **Successful**
+**Locally verified on October 28, 2026:**
 
-## ⚠️ Current Limitations
+```text
+159 passed in 3.54s
+```
 
-CareGap-AI is an MVP and technical demonstration, not a certified clinical system.
+The test suite covers areas including authentication, authorization, organizations, clinical records, CSV imports, analytics, audit logging, and database operations. Passing tests do not establish full security, regulatory compliance, or clinical safety.
 
-- 🧪 ML model uses synthetic training data and lacks clinical validation.
-- 🔍 Care gap detection is based on predefined, basic rules.
-- 🚧 Care gap resolution tracking and complex clinical workflows are planned for future releases.
-- 🛡️ Production hardening, regulatory compliance (e.g., HIPAA), and operational monitoring are required before real-world deployment.
-- 🛑 **Do not use with real patient health information (PHI) without proper safeguards.**
+Frontend production build was also verified:
 
-## 🔮 Future Enhancements
+```text
+vite v8.3.5
+2573 modules transformed
+Build successful (363ms)
+npm audit: 0 vulnerabilities reported at the time of check
+```
 
-- ➕ Expanded rule library for care gap identification
-- 🔄 Actionable resolution workflows for care gaps
-- 📈 Enhanced hospital-level analytical reporting
-- 🎯 ML evaluation on real-world governed datasets
-- 👁️ Model explainability (SHAP/LIME) and drift monitoring
-- 🚀 Automated CI/CD pipelines & containerized deployment (Docker/K8s)
+> **Build note:** Vite reported a non-blocking warning for a JavaScript chunk above 500 kB (approximately 694 kB minified / 209 kB gzip). Code splitting is a future optimization.
 
-## 📚 Documentation
+## Security and responsible use
 
-Detailed documentation is available in the [`docs/`](docs/) directory:
+- Authentication and RBAC are implemented for supported routes; all access-control boundaries should continue to be tested.
+- Organization scoping requires authorization enforcement at the application/query layer; database foreign keys alone do not guarantee tenant isolation.
+- Do not upload real patient data or protected health information to this demonstration without an appropriate security, privacy, and compliance program.
+- Secrets should remain in ignored local environment files or a managed secrets service.
+- Synthetic-model outputs are for engineering demonstration only.
 
-- 📄 Product Requirements
-- 🏗️ Architecture & Database Schemas
-- 🔌 API Specifications
-- 🤖 ML Design & Security Guidelines
+## Current limitations and roadmap
 
-## 🎯 Project Purpose
+**Current limitations**
 
-CareGap-AI demonstrates core capabilities in:
+- Synthetic-only ML training and no clinical validation.
+- A limited deterministic care-gap rule library.
+- Care-gap resolution workflows still in development.
+- Production security hardening, operational monitoring, and regulatory assessment remain outstanding.
 
-> **Backend Engineering · Applied AI/ML · REST API Design · Database Architecture · Healthcare Analytics · Full-Stack Development · Automated Testing**
+**Potential next steps**
 
-## ⚖️ License
+- Persistent case-management and resolution workflows.
+- Additional rule coverage and explainability.
+- CI checks, containerized setup, and reproducible deployments.
+- Model evaluation, calibration, versioning, and drift monitoring on appropriately governed datasets.
+- Performance profiling and frontend code splitting.
+
+## Further documentation
+
+See [`docs/`](docs/) for supporting project materials, architecture notes, and specifications.
+
+## Engineering focus
+
+**Python Backend Engineering · FastAPI · REST API Design · PostgreSQL · Authentication & RBAC · Applied ML · Full-Stack Development · Automated Testing**
+
+## License
 
 All rights reserved. No open-source license is currently assigned to this repository.
